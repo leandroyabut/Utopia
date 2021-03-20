@@ -10,6 +10,8 @@ import com.leandroyabut.utopiaairlines.application.service.dao.DataAccessObject;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FlightDAO extends DataAccessObject {
 
@@ -81,6 +83,18 @@ public class FlightDAO extends DataAccessObject {
         }
 
         return flight;
+    }
+
+    public List<Flight> getFlights() throws SQLException {
+        List<Flight> flights = new ArrayList<>();
+
+        ResultSet resultSet = query("select * from flight");
+
+        while(resultSet.next()) {
+            flights.add(getFlightById(resultSet.getInt("id")));
+        }
+
+        return flights;
     }
 
     public void addAirport(Airport airport) throws SQLException {
