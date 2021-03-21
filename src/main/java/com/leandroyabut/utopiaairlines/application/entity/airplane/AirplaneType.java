@@ -1,12 +1,17 @@
 package com.leandroyabut.utopiaairlines.application.entity.airplane;
 
 public class AirplaneType {
+
     private int id;
     private int maxCapacity;
+    private int maxFirstCapacity;
+    private int maxBusinessCapacity;
 
-    public AirplaneType(int id, int maxCapacity) {
+    public AirplaneType(int id, int maxCapacity, int maxFirstCapacity, int maxBusinessCapacity) {
         this.id = id;
         this.maxCapacity = maxCapacity;
+        this.maxFirstCapacity = maxFirstCapacity;
+        this.maxBusinessCapacity = maxBusinessCapacity;
     }
 
     public int getId() {
@@ -23,5 +28,21 @@ public class AirplaneType {
 
     public void setMaxCapacity(int maxCapacity) {
         this.maxCapacity = maxCapacity;
+    }
+
+    public int getMaxFirstCapacity() {
+        return maxFirstCapacity;
+    }
+
+    public void setMaxFirstCapacity(int maxFirstCapacity) {
+        this.maxFirstCapacity = maxFirstCapacity;
+    }
+
+    public int getMaxBusinessCapacity() {
+        return maxBusinessCapacity;
+    }
+
+    public void setMaxBusinessCapacity(int maxBusinessCapacity) {
+        this.maxBusinessCapacity = maxBusinessCapacity;
     }
 }

@@ -86,6 +86,19 @@ public class DAOHandler implements AutoCloseable{
         if(dao!=null) dao.getConnection().commit();
     }
 
+    public void rollback() {
+        for(DataAccessObject o : DAOs) {
+            if(o!=null) {
+                try {
+                    o.getConnection().rollback();
+                } catch (SQLException throwables) {
+                    System.out.println("Unable to rollback...");
+                    throwables.printStackTrace();
+                }
+            }
+        }
+    }
+
     @Override
     public void close() throws SQLException {
         for(DataAccessObject dao : DAOs) {

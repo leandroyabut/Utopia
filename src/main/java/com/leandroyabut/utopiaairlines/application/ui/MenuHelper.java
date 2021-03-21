@@ -35,17 +35,17 @@ public class MenuHelper {
         return input;
     }
 
+    public String promptForString(String message) {
+        System.out.print(message);
+        return scanner.nextLine();
+    }
+
     public void printOptions(String... options) {
         int n = 1;
         for(String option : options) {
             System.out.println(n + ") " + option);
             n++;
         }
-    }
-
-    public void clearScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
     }
 
 }

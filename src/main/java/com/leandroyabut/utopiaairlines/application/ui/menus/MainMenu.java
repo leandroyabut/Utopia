@@ -2,23 +2,22 @@ package com.leandroyabut.utopiaairlines.application.ui.menus;
 
 import com.leandroyabut.utopiaairlines.application.ui.menus.administrator.AdministratorMenu;
 import com.leandroyabut.utopiaairlines.application.ui.menus.employee.EmployeeMenu;
+import com.leandroyabut.utopiaairlines.application.ui.menus.traveler.TravelerMenu;
 
 public class MainMenu extends Menu {
 
     public MainMenu() {
         super(null);
+        setTitle("Utopia Airlines Management System");
+        setMessage("Welcome to the Utopia Airlines Management System...");
+        setOptions("Employee", "Administrator", "Traveler", "Exit...");
+        setPrompt("Enter user type: ", 1, 4);
     }
 
     @Override
     public void start() {
 
-        System.out.println("Welcome to the Utopia Airlines Management System...\n");
-
-        getHelper().printOptions("Employee", "Administrator", "Traveler");
-
-        int selection = getHelper().promptForInt("Which category of user are you? ", 1, 3);
-
-        System.out.println("\n\n");
+        int selection = printMenu();
 
         switch(selection) {
 
@@ -30,6 +29,14 @@ public class MainMenu extends Menu {
             case 2:
                 AdministratorMenu administratorMenu = new AdministratorMenu(this);
                 administratorMenu.start();
+                break;
+
+            case 3:
+                TravelerMenu travelerMenu = new TravelerMenu(this);
+                travelerMenu.start();
+
+            case 4:
+                System.exit(0);
                 break;
 
         }

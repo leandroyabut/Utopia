@@ -6,17 +6,15 @@ public class EmployeeMenu extends Menu {
 
     public EmployeeMenu(Menu invokingMenu) {
         super(invokingMenu);
+        setTitle("Employee Menu");
+        setOptions("Enter flights you manage", "Go back...");
+        setPrompt("Selection: ", 1, 2);
     }
 
     @Override
     public void start() {
-        System.out.println("Employee Menu: \n");
 
-        getHelper().printOptions("Enter flights your manage", "Go back...");
-
-        int selection = getHelper().promptForInt("Selection: ", 1, 2);
-
-        System.out.println("\n\n");
+        int selection = printMenu();
 
         switch (selection) {
             case 1:
@@ -25,7 +23,7 @@ public class EmployeeMenu extends Menu {
                 break;
 
             case 2:
-                this.back();
+                back();
                 break;
         }
     }

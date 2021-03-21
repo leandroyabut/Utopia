@@ -13,6 +13,12 @@ public class Route {
         this.destinationAirport = destinationAirport;
     }
 
+    public Route(Airport originAirport, Airport destinationAirport) {
+        this.id = 0;
+        this.originAirport = originAirport;
+        this.destinationAirport = destinationAirport;
+    }
+
     public int getId() {
         return id;
     }

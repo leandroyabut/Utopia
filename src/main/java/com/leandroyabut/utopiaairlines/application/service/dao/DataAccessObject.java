@@ -64,6 +64,10 @@ public class DataAccessObject {
         getConnection().commit();
     }
 
+    public void rollback() throws SQLException {
+        getConnection().rollback();
+    }
+
     public Connection getConnection() {
         return connection;
     }

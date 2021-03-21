@@ -3,6 +3,7 @@ max_capacity
 type_id
 route_id
 airplane_id
+arrival_time
 departure_time
 reserved_seats
 origin_id
