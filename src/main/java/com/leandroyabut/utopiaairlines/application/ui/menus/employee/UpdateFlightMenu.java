@@ -40,103 +40,91 @@ public class UpdateFlightMenu extends Menu {
         final LocalTime[] arriveTime = new LocalTime[1];
 
         // Change Origin
-        promptForTextInput("Enter new origin airport code and city. (ex. DEN, Denver). Enter 'na' for no change...",
-                command -> {
-                    if(!command.equals("na")) {
-                        try {
-                            origin[0] = command.split(",")[0].trim().toUpperCase().substring(0, 3);
-                            origin[1] = command.split(",")[1].trim();
-                        } catch(IndexOutOfBoundsException e) {
-                            System.out.println("Input is invalid...");
-                        }
-                    }
-                }, this::quit);
+        promptForTextInput("Enter new origin airport code and city. (ex. DEN, Denver). Enter 'na' for no change...", command -> {
+            if(!command.equalsIgnoreCase("na")) {
+                try {
+                    origin[0] = command.split(",")[0].trim().toUpperCase().substring(0, 3);
+                    origin[1] = command.split(",")[1].trim();
+                } catch(IndexOutOfBoundsException e) {
+                    System.out.println("Input is invalid...");
+                }
+            }
+        }, this::quit);
 
         // Change Destination
-        promptForTextInput("Enter new destination airport code and city. (ex. DEN, Denver). Enter 'na' for no change...",
-                command -> {
-                    if(!command.equals("na")) {
-                        try {
-                            destination[0] = command.split(",")[0].trim().toUpperCase().substring(0, 3);
-                            destination[1] = command.split(",")[1].trim();
-                        } catch(IndexOutOfBoundsException e) {
-                            System.out.println("Input is invalid...");
-                        }
-                    }
-                }, this::quit);
+        promptForTextInput("Enter new destination airport code and city. (ex. DEN, Denver). Enter 'na' for no change...", command -> {
+            if(!command.equalsIgnoreCase("na")) {
+                try {
+                    destination[0] = command.split(",")[0].trim().toUpperCase().substring(0, 3);
+                    destination[1] = command.split(",")[1].trim();
+                } catch(IndexOutOfBoundsException e) {
+                    System.out.println("Input is invalid...");
+                }
+            }
+        }, this::quit);
 
         // Change Departure Date
-        promptForTextInput("Enter new departure date. (YYYY-MM-DD). Enter 'na' for no change...",
-                command -> {
-                    if(!command.equals("na")) {
-                        try {
-                            departDate[0] = Date.valueOf(command).toLocalDate();
-                        } catch (IllegalArgumentException e) {
-                            System.out.println("Format was not YYYY-MM-DD...");
-                        }
-                    }
-                },
-                this::quit);
+        promptForTextInput("Enter new departure date. (YYYY-MM-DD). Enter 'na' for no change...", command -> {
+            if(!command.equalsIgnoreCase("na")) {
+                try {
+                    departDate[0] = Date.valueOf(command).toLocalDate();
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Format was not YYYY-MM-DD...");
+                }
+            }
+        }, this::quit);
 
         // Change Departure Time
-        promptForTextInput("Enter new departure time. (hh:mm:ss). Enter 'na' for no change...",
-                command -> {
-                    if(!command.equals("na")) {
-                        try {
-                            departTime[0] = Time.valueOf(command).toLocalTime();
-                        } catch (IllegalArgumentException e) {
-                            System.out.println("Format was not hh:mm:ss...");
-                        }
-                    }
-                },
-                this::quit);
+        promptForTextInput("Enter new departure time. (hh:mm:ss). Enter 'na' for no change...", command -> {
+            if(!command.equalsIgnoreCase("na")) {
+                try {
+                    departTime[0] = Time.valueOf(command).toLocalTime();
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Format was not hh:mm:ss...");
+                }
+            }
+        }, this::quit);
 
         // Change Arrival Date
-        promptForTextInput("Enter new arrival date. (YYYY-MM-DD). Enter 'na' for no change...",
-                command -> {
-                    if(!command.equals("na")) {
-                        try {
-                            arriveDate[0] = Date.valueOf(command).toLocalDate();
-                        } catch (IllegalArgumentException e) {
-                            System.out.println("Format was not YYYY-MM-DD...");
-                        }
-                    }
-                },
-                this::quit);
+        promptForTextInput("Enter new arrival date. (YYYY-MM-DD). Enter 'na' for no change...", command -> {
+            if(!command.equalsIgnoreCase("na")) {
+                try {
+                    arriveDate[0] = Date.valueOf(command).toLocalDate();
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Format was not YYYY-MM-DD...");
+                }
+            }
+        }, this::quit);
 
         // Change Arrival Time
-        promptForTextInput("Enter new arrival time. (hh:mm:ss). Enter 'na' for no change...",
-                command -> {
-                    if(!command.equals("na")) {
-                        try {
-                            arriveTime[0] = Time.valueOf(command).toLocalTime();
-                        } catch (IllegalArgumentException e) {
-                            System.out.println("Format was not hh:mm:ss...");
-                        }
-                    }
-                },
-                this::quit);
+        promptForTextInput("Enter new arrival time. (hh:mm:ss). Enter 'na' for no change...", command -> {
+            if(!command.equalsIgnoreCase("na")) {
+                try {
+                    arriveTime[0] = Time.valueOf(command).toLocalTime();
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Format was not hh:mm:ss...");
+                }
+            }
+        }, this::quit);
 
         // Ask to save
-        promptForTextInput("Would you like to save these changes? (Y/N)",
-                command -> {
+        promptForTextInput("Would you like to save these changes? (Y/N)", command -> {
 
-                    if(command.equalsIgnoreCase("Y")) {
-                        try {
-                            save(origin, destination, departDate, departTime, arriveDate, arriveTime);
-                        } catch (SQLException throwables) {
-                            try {
-                                flightDAO.rollback();
-                            } catch (SQLException e) {
-                                System.out.println("Unable to rollback changes...");
-                            }
-                            System.out.println("Unable to save. Please contact your administrator.");
-                            throwables.printStackTrace();
-                        }
+            if(command.equalsIgnoreCase("Y")) {
+                try {
+                    save(origin, destination, departDate, departTime, arriveDate, arriveTime);
+                } catch (SQLException throwables) {
+                    try {
+                        flightDAO.rollback();
+                    } catch (SQLException e) {
+                        System.out.println("Unable to rollback changes...");
                     }
+                    System.out.println("Unable to save. Please contact your administrator.");
+                    throwables.printStackTrace();
+                }
+            }
 
-                },
-                this::quit);
+        }, this::quit);
 
         System.out.println("\n--------------------------------------------\n\n");
 
@@ -159,8 +147,11 @@ public class UpdateFlightMenu extends Menu {
 
         Airport originAirport = flight.getRoute().getOriginAirport();
         Airport destinationAirport = flight.getRoute().getDestinationAirport();
-        LocalDateTime newDepartDateTime = flight.getDepartureTime();
-        LocalDateTime newArriveDateTime = flight.getArrivalTime();
+        LocalDate newDepartDate = flight.getDepartureTime().toLocalDate();
+        LocalTime newDepartTime = flight.getDepartureTime().toLocalTime();
+        LocalDate newArriveDate = flight.getArrivalTime().toLocalDate();
+        LocalTime newArriveTime = flight.getArrivalTime().toLocalTime();
+
         Route newRoute;
 
         // Check airports
@@ -185,13 +176,24 @@ public class UpdateFlightMenu extends Menu {
         newRoute = flightDAO.getRouteByAirportIds(originAirport.getAirportCode(), destinationAirport.getAirportCode());
 
         // Check times
-        if(departDate[0] != null && departTime[0] != null) {
-            newDepartDateTime = LocalDateTime.of(departDate[0], departTime[0]);
+        if(departDate[0] != null) {
+            newDepartDate = departDate[0];
         }
 
-        if(arriveDate[0] != null && arriveTime[0]!= null) {
-            newArriveDateTime = LocalDateTime.of(arriveDate[0], arriveTime[0]);
+        if(departTime[0] != null) {
+            newDepartTime = departTime[0];
         }
+
+        if(arriveDate[0] != null) {
+            newArriveDate = arriveDate[0];
+        }
+
+        if(arriveTime[0] != null) {
+            newArriveTime = arriveTime[0];
+        }
+
+        LocalDateTime newDepartDateTime = LocalDateTime.of(newDepartDate, newDepartTime);
+        LocalDateTime newArriveDateTime = LocalDateTime.of(newArriveDate, newArriveTime);
 
         flightDAO.updateFlight(flight.getId(), "route_id", newRoute.getId());
         flightDAO.updateFlight(flight.getId(), "departure_time", newDepartDateTime);
