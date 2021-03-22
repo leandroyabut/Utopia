@@ -15,6 +15,14 @@ public class Booking {
         this.confirmationCode = confirmationCode;
     }
 
+    public Booking(boolean isActive, String confirmationCode) {
+
+        this.id = 0;
+        this.isActive = isActive;
+        this.confirmationCode = confirmationCode;
+
+    }
+
     public Payment getPayment() {
         return payment;
     }

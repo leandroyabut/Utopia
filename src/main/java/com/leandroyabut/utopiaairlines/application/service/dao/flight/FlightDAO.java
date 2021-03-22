@@ -6,6 +6,7 @@ import com.leandroyabut.utopiaairlines.application.entity.flight.Airport;
 import com.leandroyabut.utopiaairlines.application.entity.flight.Flight;
 import com.leandroyabut.utopiaairlines.application.entity.flight.Route;
 import com.leandroyabut.utopiaairlines.application.service.dao.DataAccessObject;
+import com.leandroyabut.utopiaairlines.application.service.handler.DAOHandler;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -70,6 +71,20 @@ public class FlightDAO extends DataAccessObject {
         return airplane;
     }
 
+    public List<Airport> getAirports() throws SQLException {
+
+        List<Airport> airports = new ArrayList<>();
+
+        ResultSet resultSet = query("select * from airport");
+
+        while(resultSet.next()) {
+            airports.add(getAirportByCode(resultSet.getString("iata_id")));
+        }
+
+        return airports;
+
+    }
+
     public Flight getFlightById(int id) throws SQLException {
         Flight flight = null;
 
@@ -106,14 +121,28 @@ public class FlightDAO extends DataAccessObject {
         return flights;
     }
 
+    public List<Route> getRoutes() throws SQLException {
+        List<Route> routes = new ArrayList<>();
+
+        ResultSet resultSet = query("select id from route");
+
+        while(resultSet.next()) {
+            routes.add(getRouteById(resultSet.getInt("id")));
+        }
+
+        return routes;
+    }
+
     public void addAirport(Airport airport) throws SQLException {
         if(!airportExists(airport.getAirportCode()))
             update("insert into airport values(?, ?)", airport.getAirportCode(), airport.getCity());
     }
 
     public void deleteAirport(String code) throws SQLException {
-        if(airportExists(code))
+        if(airportExists(code)) {
+            deleteRouteContainsAirport(code);
             update("delete from airport where iata_id = ?", code);
+        }
     }
 
     public void updateAirport(String code, String columnLabel, Object value) throws SQLException {
@@ -128,6 +157,16 @@ public class FlightDAO extends DataAccessObject {
     public void deleteRoute(int id) throws SQLException {
         if(routeExists(id))
             update("delete from route where id = ?", id);
+    }
+
+    public void deleteRouteContainsAirport(String code) throws SQLException {
+
+        ResultSet resultSet = query("select * from route where origin_id = ? or destination_id = ?", code, code);
+        while(resultSet.next()) {
+            deleteFlightOnRouteId(resultSet.getInt("id"));
+            update("delete from route where origin_id = ? or destination_id = ?", code, code);
+        }
+
     }
 
     public void updateRoute(int id, String columnLabel, Object value) throws SQLException {
@@ -191,6 +230,15 @@ public class FlightDAO extends DataAccessObject {
     public void deleteFlight(int id) throws SQLException {
         if(flightExist(id))
             update("delete from flight where id = ?", id);
+    }
+
+    public void deleteFlightOnRouteId(int id) throws SQLException {
+        ResultSet rs = query("select * from flight where route_id = ?", id);
+
+        while(rs.next()) {
+            DAOHandler.getInstance().getFlightBookingDAO().deleteFBOnFlightId(rs.getInt("id"));
+            update("delete from flight where route_id = ?", id);
+        }
     }
 
     public void updateFlight(int id, String columnLabel, Object value) throws SQLException {

@@ -13,13 +13,13 @@ public class FlightOptionsMenu extends Menu {
     public FlightOptionsMenu(Menu invokingMenu, Flight flight) {
         super(invokingMenu);
         this.flight = flight;
+        setMessage(getHelper().getFlightDetailsString(flight));
         setOptions(
-                "View more details about the flight",
                 "Update the details of the flight",
                 "Add seats to flight",
                 "Go back..."
         );
-        setPrompt("Selection: ", 1, 4);
+        setPrompt("Selection: ", 1, 3);
     }
 
     @Override
@@ -42,16 +42,16 @@ public class FlightOptionsMenu extends Menu {
 
         switch (selection) {
             case 1:
-                FlightDetailsMenu flightDetails = new FlightDetailsMenu(this, currentFlight);
-                flightDetails.start();
-                break;
-
-            case 2:
                 UpdateFlightMenu updateFlightMenu = new UpdateFlightMenu(this, currentFlight);
                 updateFlightMenu.start();
                 break;
 
-            case 4:
+            case 2:
+                AddSeatsMenu addSeatsMenu = new AddSeatsMenu(this, currentFlight);
+                addSeatsMenu.start();
+                break;
+
+            case 3:
                 back();
                 break;
         }

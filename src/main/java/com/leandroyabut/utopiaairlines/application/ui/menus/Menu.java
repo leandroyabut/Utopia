@@ -2,16 +2,20 @@ package com.leandroyabut.utopiaairlines.application.ui.menus;
 
 import com.leandroyabut.utopiaairlines.application.entity.flight.Flight;
 import com.leandroyabut.utopiaairlines.application.entity.flight.Route;
+import com.leandroyabut.utopiaairlines.application.entity.user.User;
 import com.leandroyabut.utopiaairlines.application.ui.MenuHelper;
+import com.leandroyabut.utopiaairlines.application.ui.menus.util.RunOperation;
 
 public abstract class Menu {
 
     private Menu previousMenu;
     private MenuHelper helper;
+    private User user;
 
     private String title;
     private String message;
     private String[] options;
+    private Object[] prompts;
     private String prompt;
     private int minIn = 0, maxIn = 0;
 
@@ -57,7 +61,15 @@ public abstract class Menu {
         this.maxIn = max;
     }
 
-    protected int printMenu() {
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public int printMenu() {
         printTitle();
         System.out.println("---------------------------------");
         printMessage();
@@ -73,11 +85,11 @@ public abstract class Menu {
         if(previousMenu!=null) previousMenu.start();
     }
 
-    protected MenuHelper getHelper() {
+    public MenuHelper getHelper() {
         return helper;
     }
 
-    protected String getRouteString(Flight flight) {
+    public String getRouteString(Flight flight) {
         Route route = flight.getRoute();
         String originId = route.getOriginAirport().getAirportCode();
         String originCity = route.getOriginAirport().getCity();
@@ -86,10 +98,19 @@ public abstract class Menu {
         return String.format("%s, %s -> %s, %s", originId, originCity, destId, destCity);
     }
 
-    protected void promptForTextInput(String prompt, RunOperation operation, Runnable quitRunnnable) {
+    public String getRouteString(Route route) {
+        String originId = route.getOriginAirport().getAirportCode();
+        String originCity = route.getOriginAirport().getCity();
+        String destId = route.getDestinationAirport().getAirportCode();
+        String destCity = route.getDestinationAirport().getCity();
+        return String.format("%s, %s -> %s, %s", originId, originCity, destId, destCity);
+    }
+
+    public void promptForTextInput(String prompt, RunOperation operation, Runnable quitRunnnable) {
         System.out.println(prompt);
         String textInput = getHelper().promptForString("> ");
-        if(textInput.equals("quit")) quitRunnnable.run();
+
+        if(textInput.equalsIgnoreCase("quit")) quitRunnnable.run();
         else operation.run(textInput);
     }
 }

@@ -10,6 +10,11 @@ public class BookingUser extends User {
         super(id, role, givenName, familyName, username, email, password, phone);
     }
 
+    public BookingUser(User user, Booking booking) {
+        super(user.getId(), user.getRole(), user.getGivenName(), user.getFamilyName(), user.getUsername(), user.getEmail(), user.getPassword(), user.getPhone());
+        setBooking(booking);
+    }
+
     public void setBooking(Booking booking) {
         this.booking = booking;
     }

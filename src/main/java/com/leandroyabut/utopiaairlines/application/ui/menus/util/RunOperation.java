@@ -1,4 +1,4 @@
-package com.leandroyabut.utopiaairlines.application.ui.menus;
+package com.leandroyabut.utopiaairlines.application.ui.menus.util;
 
 @FunctionalInterface
 public interface RunOperation {

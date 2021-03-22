@@ -1,8 +1,9 @@
 package com.leandroyabut.utopiaairlines.application.ui.menus;
 
-import com.leandroyabut.utopiaairlines.application.ui.menus.administrator.AdministratorMenu;
-import com.leandroyabut.utopiaairlines.application.ui.menus.employee.EmployeeMenu;
-import com.leandroyabut.utopiaairlines.application.ui.menus.traveler.TravelerMenu;
+import com.leandroyabut.utopiaairlines.application.service.handler.DAOHandler;
+import com.leandroyabut.utopiaairlines.application.ui.menus.account.LoginMenu;
+
+import java.sql.SQLException;
 
 public class MainMenu extends Menu {
 
@@ -22,18 +23,16 @@ public class MainMenu extends Menu {
         switch(selection) {
 
             case 1:
-                EmployeeMenu employeeMenu = new EmployeeMenu(this);
-                employeeMenu.start();
-                break;
-
             case 2:
-                AdministratorMenu administratorMenu = new AdministratorMenu(this);
-                administratorMenu.start();
-                break;
-
             case 3:
-                TravelerMenu travelerMenu = new TravelerMenu(this);
-                travelerMenu.start();
+                LoginMenu loginMenu;
+                try {
+                    loginMenu = new LoginMenu(this, DAOHandler.getInstance().getUserDAO().getUserRoleById(selection));
+                    loginMenu.start();
+                } catch (SQLException throwables) {
+                    System.out.println("Unable to login...");
+                }
+                break;
 
             case 4:
                 System.exit(0);

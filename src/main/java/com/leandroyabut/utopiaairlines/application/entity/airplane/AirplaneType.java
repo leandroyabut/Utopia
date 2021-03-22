@@ -4,6 +4,7 @@ public class AirplaneType {
 
     private int id;
     private int maxCapacity;
+    private int maxEconomyCapacity;
     private int maxFirstCapacity;
     private int maxBusinessCapacity;
 
@@ -12,6 +13,7 @@ public class AirplaneType {
         this.maxCapacity = maxCapacity;
         this.maxFirstCapacity = maxFirstCapacity;
         this.maxBusinessCapacity = maxBusinessCapacity;
+        this.maxEconomyCapacity = maxCapacity - maxFirstCapacity - maxBusinessCapacity;
     }
 
     public int getId() {
@@ -44,5 +46,13 @@ public class AirplaneType {
 
     public void setMaxBusinessCapacity(int maxBusinessCapacity) {
         this.maxBusinessCapacity = maxBusinessCapacity;
+    }
+
+    public int getMaxEconomyCapacity() {
+        return maxEconomyCapacity;
+    }
+
+    public void setMaxEconomyCapacity(int maxEconomyCapacity) {
+        this.maxEconomyCapacity = maxEconomyCapacity;
     }
 }

@@ -1,9 +1,11 @@
-package com.leandroyabut.utopiaairlines.application.ui.menus.employee;
+package com.leandroyabut.utopiaairlines.application.ui.menus.traveler;
 
 import com.leandroyabut.utopiaairlines.application.entity.flight.Flight;
 import com.leandroyabut.utopiaairlines.application.ui.menus.Menu;
 
 public class FlightsMenu extends Menu {
+
+    private int mode;
 
     public FlightsMenu(Menu invokingMenu) {
         super(invokingMenu);
@@ -13,8 +15,8 @@ public class FlightsMenu extends Menu {
     public void start() {
         Flight flight = getHelper().printFlights(this);
 
-        FlightOptionsMenu flightOptionsMenu = new FlightOptionsMenu(this, flight);
-        flightOptionsMenu.start();
+        BookTicketMenu bookTicketMenu = new BookTicketMenu(this, flight);
+        bookTicketMenu.setUser(getUser());
+        bookTicketMenu.start();
     }
-
 }
