@@ -152,8 +152,10 @@ public class BookingDAO extends DataAccessObject {
     }
 
     public void deleteBooking(int bookingId) throws SQLException {
-        if(bookingExists(bookingId))
+        if(bookingExists(bookingId)) {
+            update("delete from booking_user where booking_id = ?", bookingId);
             update("delete from booking where id = ?", bookingId);
+        }
     }
 
     public void deletePayment(int bookingId) throws SQLException {

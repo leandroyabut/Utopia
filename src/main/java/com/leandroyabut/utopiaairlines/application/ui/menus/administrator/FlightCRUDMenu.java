@@ -135,7 +135,6 @@ public class FlightCRUDMenu extends Menu {
                 DAOHandler.getInstance().getFlightDAO().updateFlight(id, getHelper().promptForString("Enter column to edit: "), getHelper().promptForString("Enter new value: "));
             else System.out.println("Can't update a flight that doesn't exist...");
         } catch (SQLException throwables) {
-            DAOHandler.getInstance().rollback();
             System.out.println("Unable to update flight...");
         }
 
@@ -147,7 +146,6 @@ public class FlightCRUDMenu extends Menu {
                 DAOHandler.getInstance().getFlightDAO().deleteFlight(id);
             else System.out.println("Can't delete a flight that doesn't exist...");
         } catch (SQLException throwables) {
-            DAOHandler.getInstance().rollback();
             System.out.println("Unable to delete flight...");
         }
     }
@@ -169,32 +167,31 @@ public class FlightCRUDMenu extends Menu {
 
         int selection = getHelper().promptForInt("Enter route to use: ", 1, routes.size() + 1);
 
-        if (selection <= flights.size()) {
+        if (selection <= routes.size()) {
             return routes.get(selection - 1);
         } else {
+            Airport originAirport = createAirport(flightDAO);
 
-            Airport oap = createAirport(flightDAO);
+            Airport destinationAirport = createAirport(flightDAO);
 
-            Airport dap = createAirport(flightDAO);
-
-            Route route = new Route(oap, dap);
-            if(!flightDAO.routeExists(flightDAO.getRouteIdByAirports(oap.getAirportCode(), dap.getAirportCode())))
+            Route route = new Route(originAirport, destinationAirport);
+            if(!flightDAO.routeExists(flightDAO.getRouteIdByAirports(originAirport.getAirportCode(), destinationAirport.getAirportCode())))
                 flightDAO.addRoute(route);
 
-            return flightDAO.getRouteByAirportIds(oap.getAirportCode(), dap.getAirportCode());
+            return flightDAO.getRouteByAirportIds(originAirport.getAirportCode(), destinationAirport.getAirportCode());
         }
     }
 
     private Airport createAirport(FlightDAO flightDAO) throws SQLException {
-        Airport oap;
-        String oCode = getHelper().promptForString("Enter 3 letter code: ");
-        if(!flightDAO.airportExists(oCode)) {
-            String oCity = getHelper().promptForString("Enter city for " + oCode + ": ");
-            oap = new Airport(oCode, oCity);
-            flightDAO.addAirport(oap);
+        Airport airport;
+        String code = getHelper().promptForString("Enter 3 letter code: ");
+        if(!flightDAO.airportExists(code)) {
+            String oCity = getHelper().promptForString("Enter city for " + code + ": ");
+            airport = new Airport(code, oCity);
+            flightDAO.addAirport(airport);
             flightDAO.commit();
         }
-        oap = flightDAO.getAirportByCode(oCode);
-        return oap;
+        airport = flightDAO.getAirportByCode(code);
+        return airport;
     }
 }

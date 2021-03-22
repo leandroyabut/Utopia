@@ -38,7 +38,6 @@ public class AirportCRUDMenu extends Menu {
             setMessage(sb.toString());
 
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
             System.out.println("Unable to retrieve airport. Please contact your administrator.");
         }
 
@@ -66,7 +65,6 @@ public class AirportCRUDMenu extends Menu {
                 try {
                     DAOHandler.getInstance().commit();
                 } catch (SQLException throwables) {
-                    DAOHandler.getInstance().rollback();
                     System.out.println("Unable to save these changes...");
                 }
                 break;
@@ -95,7 +93,6 @@ public class AirportCRUDMenu extends Menu {
                 flightDAO.addAirport(airport);
             }
         } catch (SQLException throwables) {
-            DAOHandler.getInstance().rollback();
             throwables.printStackTrace();
         }
 
@@ -114,7 +111,6 @@ public class AirportCRUDMenu extends Menu {
                 flightDAO.updateAirport(code, columnName, value);
             }
         } catch (SQLException throwables) {
-            DAOHandler.getInstance().rollback();
             System.out.println("Unable to update airport.");
         }
 
@@ -130,8 +126,8 @@ public class AirportCRUDMenu extends Menu {
                 flightDAO.deleteAirport(code);
             }
         } catch (SQLException throwables) {
-            DAOHandler.getInstance().rollback();
             System.out.println("Unable to delete airport.");
+            throwables.printStackTrace();
         }
     }
 }

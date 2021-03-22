@@ -5,8 +5,6 @@ import com.leandroyabut.utopiaairlines.application.ui.menus.Menu;
 
 public class FlightsMenu extends Menu {
 
-    private int mode;
-
     public FlightsMenu(Menu invokingMenu) {
         super(invokingMenu);
     }

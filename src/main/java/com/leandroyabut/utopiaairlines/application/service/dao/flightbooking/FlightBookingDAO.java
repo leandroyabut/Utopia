@@ -1,6 +1,7 @@
 package com.leandroyabut.utopiaairlines.application.service.dao.flightbooking;
 
 import com.leandroyabut.utopiaairlines.application.entity.FlightBooking;
+import com.leandroyabut.utopiaairlines.application.entity.user.User;
 import com.leandroyabut.utopiaairlines.application.service.dao.DataAccessObject;
 import com.leandroyabut.utopiaairlines.application.service.handler.DAOHandler;
 
@@ -25,11 +26,11 @@ public class FlightBookingDAO extends DataAccessObject {
         return flightBooking;
     }
 
-    public List<FlightBooking> getFlightBookings() throws SQLException {
+    public List<FlightBooking> getFlightBookings(User user) throws SQLException {
 
         List<FlightBooking> flightBookings = new ArrayList<>();
 
-        ResultSet resultSet = query("select * from flight_bookings");
+        ResultSet resultSet = query("select flight_bookings.flight_id, booking.id as 'booking_id', booking_user.user_id from flight_bookings inner join booking on flight_bookings.booking_id = booking.id inner join booking_user on booking_user.booking_id = booking.id where booking_user.user_id = ?", user.getId());
 
         while(resultSet.next()) {
 

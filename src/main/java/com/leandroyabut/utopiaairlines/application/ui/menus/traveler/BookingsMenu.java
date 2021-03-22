@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public class BookingsMenu extends Menu {
 
     List<FlightBooking> bookings;
-    FlightDAO fdao;
+    FlightDAO flightDAO;
 
     public BookingsMenu(Menu invokingMenu) {
         super(invokingMenu);
@@ -21,11 +21,12 @@ public class BookingsMenu extends Menu {
     @Override
     public void start() {
 
-        fdao = DAOHandler.getInstance().getFlightDAO();
+        flightDAO = DAOHandler.getInstance().getFlightDAO();
         try {
-            bookings = DAOHandler.getInstance().getFlightBookingDAO().getFlightBookings();
+            bookings = DAOHandler.getInstance().getFlightBookingDAO().getFlightBookings(getUser());
         } catch (SQLException throwables) {
             System.out.println("Unable to retrieve flight bookings. Please contact your administrator.");
+            throwables.printStackTrace();
         }
 
         setTitle("Your Bookings");
@@ -47,4 +48,5 @@ public class BookingsMenu extends Menu {
         } else back();
 
     }
+
 }

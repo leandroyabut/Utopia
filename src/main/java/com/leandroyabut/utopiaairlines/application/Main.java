@@ -1,6 +1,5 @@
 package com.leandroyabut.utopiaairlines.application;
 
-import com.leandroyabut.utopiaairlines.application.entity.user.User;
 import com.leandroyabut.utopiaairlines.application.ui.menus.MainMenu;
 
 public class Main {
